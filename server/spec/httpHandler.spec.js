@@ -13,17 +13,24 @@ describe('server responses', () => {
   it('should respond to a OPTIONS request', (done) => {
     let {req, res} = server.mock('/', 'OPTIONS');
 
-    httpHandler.router(req, res);
+    httpHandler.router(req, res, () => {
     expect(res._responseCode).to.equal(200);
     expect(res._ended).to.equal(true);
     expect(res._data.toString()).to.be.empty;
-
     done();
+    });
   });
 
   it('should respond to a GET request for a swim command', (done) => {
-    // write your test here
+    let {req, res} = server.mock('/', 'GET');
+    const commands = ['up', 'down', 'left', 'right'];
+
+    httpHandler.router(req, res, () => {
+    expect(res._responseCode).to.equal(200);
+    expect(res._ended).to.equal(true);
+    expect(commands).to.contain(res._data.toString());
     done();
+    });
   });
 
   xit('should respond with 404 to a GET request for a missing background image', (done) => {
@@ -31,7 +38,7 @@ describe('server responses', () => {
     let {req, res} = server.mock('FILL_ME_IN', 'GET');
 
     httpHandler.router(req, res, () => {
-      expect(res._responseCode).to.equal(404);
+      expect(res._responseCode).to.equal(200);
       expect(res._ended).to.equal(true);
       done();
     });
