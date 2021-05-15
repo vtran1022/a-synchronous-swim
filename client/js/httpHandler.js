@@ -6,6 +6,37 @@
   // TODO: build the swim command fetcher here
   //
 
+  const swimCommandFetcher = function () {
+    $.ajax({
+      url: serverUrl,
+      method: 'GET',
+      success: (serverCommand) => {
+        SwimTeam.move(serverCommand);
+      },
+      error: () => {console.log('error getting command')}
+    });
+  }
+
+  // setInterval(swimCommandFetcher, 1000);
+
+  // const backgroundFetcher = function () {
+  //   $.ajax({
+  //     url: serverUrl + '/background',
+  //     method: 'GET',
+  //     success: (image) => {
+  //       console.log(image);
+  //     },
+  //     error: () => {console.log('error getting background')}
+  //   })
+  // }
+  // backgroundFetcher();
+
+  /*
+  look into how a browser loads an image when you do an image tag with a source
+  understand how server is sending the file
+  after browser loads image -- think about if it can load the image from where it is located
+  */
+
   /////////////////////////////////////////////////////////////////////
   // The ajax file uplaoder is provided for your convenience!
   // Note: remember to fix the URL below.

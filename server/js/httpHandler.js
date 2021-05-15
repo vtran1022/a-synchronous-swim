@@ -4,7 +4,7 @@ const headers = require('./cors');
 const multipart = require('./multipartUtils');
 
 // Path for the background image ///////////////////////
-module.exports.backgroundImageFile = path.join('.', 'js', 'background.jpg');
+module.exports.backgroundImageFile = path.join('.', 'background.jpg');
 ////////////////////////////////////////////////////////
 
 let messageQueue = null;
@@ -28,18 +28,18 @@ module.exports.router = (req, res, next = () => { }) => {
     next();
   }
 
-  if (req.url === '/background') {
+  if (req.url === '/background.jpg') {
     if (req.method === 'GET') {
       //if we don't find a background image, set the header to 404
       //else, return the image? (render it to the screen, is now the background)
       fs.readFile(module.exports.backgroundImageFile, (err, data) => {
-        console.log('error', err);
-        console.log('file path', path.join('.', 'js', 'background.jpg'))
         if (err) {
           res.writeHead(404, headers);
+          res.write(err);
         } else {
           //change content type
-          res.writeHead(200, {'content-type': 'image/jpeg'});
+          // res.writeHead(200, {'content-type': 'image/jpeg'});
+          res.writeHead(200, headers);
           res.write(data, 'binary');
         }
         res.end()
