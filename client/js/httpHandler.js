@@ -42,22 +42,25 @@
   // Note: remember to fix the URL below.
   /////////////////////////////////////////////////////////////////////
 
-  const ajaxFileUplaod = (file) => {
+  const ajaxFileUpload = (file) => {
     var formData = new FormData();
     formData.append('file', file);
     $.ajax({
       type: 'POST',
       data: formData,
-      url: 'FILL_ME_IN',
+      url: serverUrl + '/background.jpg',
       cache: false,
       contentType: false,
       processData: false,
       success: () => {
         // reload the page
+        console.log('success');
         window.location = window.location.href;
-      }
+      },
+      error: () => {console.log('file cannot be uploaded')}
     });
   };
+
 
   $('form').on('submit', function(e) {
     e.preventDefault();
@@ -74,7 +77,7 @@
       return;
     }
 
-    ajaxFileUplaod(file);
+    ajaxFileUpload(file);
   });
 
 })();

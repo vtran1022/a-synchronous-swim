@@ -30,8 +30,6 @@ module.exports.router = (req, res, next = () => { }) => {
 
   if (req.url === '/background.jpg') {
     if (req.method === 'GET') {
-      //if we don't find a background image, set the header to 404
-      //else, return the image? (render it to the screen, is now the background)
       fs.readFile(module.exports.backgroundImageFile, (err, data) => {
         if (err) {
           res.writeHead(404, headers);
@@ -40,13 +38,36 @@ module.exports.router = (req, res, next = () => { }) => {
           res.writeHead(200, headers);
           res.write(data, 'binary');
         }
-        res.end()
+        res.end();
         next();
       });
+    } else if(req.method === 'POST') {
+      var chunks = [];
+      req.on('data', (chunk) => {
+        //chunk is a buffer of binary data
+        //add chunk to chunks
+        chunks.push(chunk);
+      });
+
+      req.on('end', () => {
+        //combine chunks Buffer.concat()
+        //use multipart to convert to image
+        //fs.writeFile
+        var allData = Buffer.concat(chunks);
+        var file = multipart.getFile(allData);
+        fs.writeFile(module.exports.backgroundImageFile, file.data, (err) => {
+          if (err) {
+            res.writeHead(404, headers);
+            res.write(err);
+          } else {
+            res.writeHead(201, headers);
+          }
+          res.end();
+          next();
+        });
+      });
     }
+
   }
-  // res.writeHead(404, headers);
-  // res.end();
-  // next();
 };
 
