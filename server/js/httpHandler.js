@@ -37,8 +37,6 @@ module.exports.router = (req, res, next = () => { }) => {
           res.writeHead(404, headers);
           res.write(err);
         } else {
-          //change content type
-          // res.writeHead(200, {'content-type': 'image/jpeg'});
           res.writeHead(200, headers);
           res.write(data, 'binary');
         }
@@ -47,5 +45,8 @@ module.exports.router = (req, res, next = () => { }) => {
       });
     }
   }
+  // res.writeHead(404, headers);
+  // res.end();
+  // next();
 };
 

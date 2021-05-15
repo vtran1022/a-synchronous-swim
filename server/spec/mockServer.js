@@ -40,6 +40,8 @@ var response = function() {
   };
 
   this.write = (data) => {
+    //console.log(data.toString());
+    //console.log(this._data);
     if (data) {
       this._data = Buffer.concat([this._data, Buffer.from(data)]);
     }
